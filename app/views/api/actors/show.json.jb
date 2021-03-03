@@ -1,0 +1,5 @@
+{
+  first_name: @actors.first_name,
+  last_name: @actors.last_name,
+  known_for: @actors.known_for,
+}
