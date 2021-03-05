@@ -18,8 +18,11 @@ class Api::MoviesController < ApplicationController
       english: params[:english],
       genre: params[:genre]
     )
-    @movies.save
-    render "show.json.jb" 
+    if @movies.save
+      render "show.json.jb" 
+    else
+      render json: { errors: @movies.errors.full_messages }, status: 406
+    end
   end
   
   def update
@@ -32,8 +35,11 @@ class Api::MoviesController < ApplicationController
     @movies.english = params[:english] || @movies.english
     @movies.genre = params[:genre] || @movies.genre
 
-    @movies.save
-    render "show.json.jb"
+    if @movies.save
+      render "show.json.jb" 
+    else
+      render json: { errors: @movies.errors.full_messages }, status: 406
+    end
   end
 
   def destroy
