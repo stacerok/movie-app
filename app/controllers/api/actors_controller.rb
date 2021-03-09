@@ -5,51 +5,48 @@ class Api::ActorsController < ApplicationController
   end
 
   def show
-    number = params[:id]
-    @actors = Actor.find_by(id: number)
+    @actor = Actor.find(params[:id])
     render "show.json.jb"
   end
 
   def create
-    @actors = Actor.new(
+    @actor = Actor.new(
       first_name: params[:first_name],
       last_name: params[:last_name],
       known_for: params[:known_for],
       gender: params[:gender],
       age: params[:age],
-
     )
 
     # happy/sad path
-    if @actors.save
+    if @actor.save
       render "show.json.jb" 
     else
-      render json: { errors: @actors.errors.full_messages }, status: 406
+      render json: { errors: @actor.errors.full_messages }, status: 406
     end
   end
   
   def update
-    input = params[:id]
-    @actors = Actor.find_by(id: input)
+    @actor = Actor.find(params[:id])
 
-    @actors.first_name = params[:first_name] || @actors.first_name
-    @actors.last_name = params[:last_name] || @actors.last_name
-    @actors.known_for = params[:known_for] || @actors.known_for
-    @actors.gender = params[:gender] || @actors.gender
-    @actors.age = params[:age] || @actors.age
+    @actor.first_name = params[:first_name] || @actor.first_name
+    @actor.last_name = params[:last_name] || @actor.last_name
+    @actor.known_for = params[:known_for] || @actor.known_for
+    @actor.gender = params[:gender] || @actor.gender
+    @actor.age = params[:age] || @actor.age
 
-    if @actors.save
+    if @actor.save
       render "show.json.jb" 
     else
-      render json: { errors: @actors.errors.full_messages }, status: 406
+      render json: { errors: @actor.errors.full_messages }, status: 406
     end
   end
 
   def destroy
     input = params[:id]
-    @actors = Actor.find_by(id: input)
+    @actor = Actor.find(params[:id])
 
-    @actors.destroy
-    render json: "Destroyed!"
+    @actor.destroy
+    render json: {message: "Actor successfully destroyed"}
   end
 end

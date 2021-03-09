@@ -1,52 +1,48 @@
 class Api::MoviesController < ApplicationController
   def index
-    @movies = Movie.where(english: true)
-    render "index.json.jb"
+    @movies = Movie.all
+    render 'index.json.jb'
   end
 
   def show
-    number = params[:id]
-    @movies = Movie.find_by(id: number)
-    render "show.json.jb"
+    @movie = Movie.find(params[:id])
+    render 'show.json.jb'
   end
 
   def create
-    @movies = Movie.new(
+    @movie = Movie.new(
       title: params[:title],
       year: params[:year],
       plot: params[:plot],
-      english: params[:english],
-      genre: params[:genre]
+      director: params[:director],
+      english: params[:english]
     )
-    if @movies.save
-      render "show.json.jb" 
+    if @movie.save
+      render 'show.json.jb'
     else
-      render json: { errors: @movies.errors.full_messages }, status: 406
+      render json: {errors: @movie.errors.full_messages}, status: :unprocessable_entity
     end
   end
-  
+
   def update
-    input = params[:id]
-    @movies = Movie.find_by(id: input)
+    @movie = Movie.find(params[:id])
+    
+    @movie.title = params[:title] || @movie.title
+    @movie.year = params[:year] || @movie.year
+    @movie.plot = params[:plot] || @movie.plot
+    @movie.director = params[:director] || @movie.director
+    @movie.english = params[:english] || @movie.english
 
-    @movies.title = params[:title] || @movies.title
-    @movies.year = params[:year] || @movies.year
-    @movies.plot = params[:plot] || @movies.plot
-    @movies.english = params[:english] || @movies.english
-    @movies.genre = params[:genre] || @movies.genre
-
-    if @movies.save
-      render "show.json.jb" 
+    if @movie.save
+      render 'show.json.jb'
     else
-      render json: { errors: @movies.errors.full_messages }, status: 406
+      render json: {errors: @movie.errors.full_messages}, status: :unprocessable_entity
     end
   end
 
   def destroy
-    input = params[:id]
-    @movies = Movie.find_by(id: input)
-
-    @movies.destroy
-    render json: "Destroyed!"
+    @movie = Movie.find(params[:id])
+    @movie.destroy
+    render json: {message: "Movie successfully destroyed"}
   end
 end
