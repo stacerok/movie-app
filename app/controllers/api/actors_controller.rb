@@ -16,6 +16,7 @@ class Api::ActorsController < ApplicationController
       known_for: params[:known_for],
       gender: params[:gender],
       age: params[:age],
+      movie_id: params[:movie_id],
     )
 
     # happy/sad path
@@ -34,6 +35,7 @@ class Api::ActorsController < ApplicationController
     @actor.known_for = params[:known_for] || @actor.known_for
     @actor.gender = params[:gender] || @actor.gender
     @actor.age = params[:age] || @actor.age
+    @actor.movie_id = params [:movie_id] || @actor.movie_id
 
     if @actor.save
       render "show.json.jb" 
