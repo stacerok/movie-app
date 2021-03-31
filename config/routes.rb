@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   namespace :api do
 
     post "/users" => "users#create"
-    
+    post "/sessions" => "sessions#create"
     get "/movies" => "movies#index"
     post "/movies" => "movies#create"
     get "/movies/:id" => "movies#show"
