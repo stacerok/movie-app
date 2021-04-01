@@ -1,5 +1,5 @@
 class Api::MoviesController < ApplicationController
-  before_action :authenticate_admin, except: [:index, :show]
+  # before_action :authenticate_admin, except: [:index, :show]
   
   def index
     @movies = Movie.all
